@@ -1,4 +1,5 @@
 import datetime
+import ast
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,8 +16,11 @@ def home(request):
     return render(request, "homepage.html", context)
 
 
-def addBook(request):
+def importBook(request):
+    return render(request, 'bookimport.html')
 
+
+def addBook(request):
     serializer_class = BookSerializer
 
     if request.method == 'POST':
@@ -101,7 +105,6 @@ class AddBookView(APIView):
     def post(self, request):
 
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid():
             title = serializer.data.get('title')
             author = serializer.data.get('author')
@@ -111,14 +114,14 @@ class AddBookView(APIView):
             cover = serializer.data.get('cover')
             language = serializer.data.get('language')
 
-            queryset = Book.objects.get(title=title, author=author, language=language,
-                                        publication_date=publication_date, isbn=isbn, number_of_pages=number_of_pages,
-                                        cover=cover)
-            if len(queryset) > 0:
-                return Response({'Bad Request': 'Book already exists...'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-            else:
-                book = Book(title=title, author=author, publication_date=publication_date, isbn=isbn,
-                            number_of_pages=number_of_pages, cover=cover, language=language)
-                book.save()
-                return Response({'Success': 'Book added...'}, status=status.HTTP_201_CREATED)
+            book = Book()
+            book.title = title
+            book.author = author
+            book.publication_date = publication_date
+            book.isbn = isbn
+            book.number_of_pages = number_of_pages
+            book.cover = cover
+            book.language = language
+            book.save()
+            return Response(BookSerializer(book).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books API Example</title>
+  </head>
+  <body>
+
+
+    <input type="text" id="Input" placeholder="Search.."/>
+    <input type="submit" id="search" onclick="PrintResults()">Search</input>
+    <div id="content"></div>
+
+    {% csrf_token %}
+    <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    </script>
+    {% load static %}
+    <script src="{% static '/js/GoogleAPIRequests.js' %}" type="text/javascript"></script>
+  </body>
+</html>
