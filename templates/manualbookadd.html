@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+</head>
+<body>
+    <h1>Add Book to database</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        Title: <input type="text" name="title"/><br/>
+        Author: <input type="text" name="author"/><br/>
+        Publication Date: <input type="date" name="date"/><br/>
+        ISBN: <input type="text" name="isbn"/><br/>
+        Number of pages: <input type="number" name="pages"/><br/>
+        Cover link: <input type="text" name="cover"/><br/>
+        Language: <input type="text" name="language"/><br/>
+        <input type="submit" value="Post"/>
+    </form>
+</body>
+</html>

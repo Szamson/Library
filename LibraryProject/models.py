@@ -8,5 +8,5 @@ class Book(models.Model):
     publication_date = models.DateField()
     isbn = models.CharField(max_length=20)
     number_of_pages = models.IntegerField()
-    cover = models.ImageField()
+    cover = models.CharField(max_length=1000)
     language = models.CharField(max_length=20)
