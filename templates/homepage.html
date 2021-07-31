@@ -17,6 +17,15 @@
     <input type="text" id="LanguageInput" onkeyup="languageFilter()" placeholder="Search for languages..">
     <input type="date" id="StartDateInput" onchange="dateFilter()" value="1900-01-01">
     <input type="date" id="EndDateInput" onchange="dateFilter()" value="2021-12-12">
+    <a href="http://127.0.0.1:8000/add-book-import">
+    <button>To Import</button>
+    </a>
+    <a href="http://127.0.0.1:8000/add-book-manual">
+    <button>To Manual Add</button>
+    </a>
+    <a href="http://127.0.0.1:8000/search-book-REST">
+    <button>To REST API Search</button>
+    </a>
     <table id="books-to-filter">
       <tr>
         <th>Title</th>
