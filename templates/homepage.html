@@ -12,14 +12,39 @@
 </head>
 
 <body>
-    {% for obj in books %}
-    {{obj.title}}<br/>
-    {% endfor %}
+    <input type="text" id="TitleInput" onkeyup="myFunction('Title')" placeholder="Search for titles..">
+    <input type="text" id="AuthorInput" onkeyup="myFunction('Author')" placeholder="Search for authors..">
+    <input type="text" id="LanguageInput" onkeyup="myFunction('Language')" placeholder="Search for languages..">
+    <input type="date" id="StartDateInput" onkeyup="myFunction('Date')" placeholder="Starting date..">
+    <input type="date" id="EndDateInput" onkeyup="myFunction('Date')" placeholder="End date..">
+    <table id="books-to-filter">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publication Date</th>
+        <th>ISBN</th>
+        <th>Number of pages</th>
+        <th>Cover</th>
+        <th>Language</th>
+      </tr>
+      {% for obj in books %}
+        <tr style="display: flow">
+        <td>{{obj.title}}</td>
+        <td>{{obj.author}}</td>
+        <td>{{obj.publication_date}}</td>
+        <td>{{obj.isbn}}</td>
+        <td>{{obj.number_of_pages}}</td>
+        <td>{{obj.cover}}</td>
+        <td>{{obj.language}}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
     {% csrf_token %}
     <script>
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     </script>
     {% load static %}
-    <script src="{% static '/js/scripts.js' %}" type="text/javascript"></script>
+    <script src="{% static '/js/FiltrateBooks.js' %}" type="text/javascript"></script>
 </body>
 </html>

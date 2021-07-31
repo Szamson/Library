@@ -16,5 +16,9 @@ class BookSerializer(serializers.ModelSerializer):
         )
 
 
-class BookTitleSerializer(serializers.Serializer):
-    title = serializers.CharField(required=True, max_length=100)
+class BookFilterSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=100, allow_blank=True)
+    author = serializers.CharField(max_length=100, allow_blank=True)
+    language = serializers.CharField(max_length=20, allow_blank=True)
+    start_date = serializers.DateField()
+    end_date = serializers.DateField()
