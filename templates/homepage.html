@@ -12,11 +12,11 @@
 </head>
 
 <body>
-    <input type="text" id="TitleInput" onkeyup="myFunction('Title')" placeholder="Search for titles..">
-    <input type="text" id="AuthorInput" onkeyup="myFunction('Author')" placeholder="Search for authors..">
-    <input type="text" id="LanguageInput" onkeyup="myFunction('Language')" placeholder="Search for languages..">
-    <input type="date" id="StartDateInput" onkeyup="myFunction('Date')" placeholder="Starting date..">
-    <input type="date" id="EndDateInput" onkeyup="myFunction('Date')" placeholder="End date..">
+    <input type="text" id="TitleInput" onkeyup="titleFilter()" placeholder="Search for titles..">
+    <input type="text" id="AuthorInput" onkeyup="authorFilter()" placeholder="Search for authors..">
+    <input type="text" id="LanguageInput" onkeyup="languageFilter()" placeholder="Search for languages..">
+    <input type="date" id="StartDateInput" onchange="dateFilter()" value="1900-01-01">
+    <input type="date" id="EndDateInput" onchange="dateFilter()" value="2021-12-12">
     <table id="books-to-filter">
       <tr>
         <th>Title</th>
