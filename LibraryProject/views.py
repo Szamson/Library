@@ -1,5 +1,5 @@
 import datetime
-import ast
+from django.core import serializers
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,6 +18,10 @@ def home(request):
 
 def importBook(request):
     return render(request, 'bookimport.html')
+
+
+def searchRESTBook(request):
+    return render(request, 'SearchREST.html')
 
 
 def addBook(request):
@@ -63,6 +67,7 @@ class BooksGetViewTitle(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         valid = serializer.is_valid()
+        print(serializer.errors)
         if valid:
 
             queryset = None
@@ -88,11 +93,11 @@ class BooksGetViewTitle(APIView):
             else:
                 start_date = serializer.data.get('start_date')
 
-            queryset = Book.objects.get(title__contains=title, author__contains=author, language__contains=language,
-                                        publication_date__range=[start_date, end_date])
+            queryset = Book.objects.filter(title__contains=title, author__contains=author, language__contains=language,
+                                           publication_date__range=[start_date, end_date])
 
             if queryset is not None:
-                return Response(BookSerializer(queryset).data, status=status.HTTP_200_OK)
+                return Response(serializers.serialize('json', queryset), status=status.HTTP_200_OK)
             else:
                 return Response({'Not Found': 'Invalid title...'}, status=status.HTTP_404_NOT_FOUND)
         else:
@@ -103,7 +108,6 @@ class AddBookView(APIView):
     serializer_class = BookSerializer
 
     def post(self, request):
-
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             title = serializer.data.get('title')
@@ -125,3 +129,28 @@ class AddBookView(APIView):
             book.save()
             return Response(BookSerializer(book).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteBookView(APIView):
+    serializer_class = BookSerializer
+
+    def post(self, request):
+
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            title = serializer.data.get('title')
+            author = serializer.data.get('author')
+            publication_date = serializer.data.get('publication_date')
+            isbn = serializer.data.get('isbn')
+            number_of_pages = serializer.data.get('number_of_pages')
+            cover = serializer.data.get('cover')
+            language = serializer.data.get('language')
+            book = Book.objects.filter(title=title, author=author, language=language,
+                                       publication_date=publication_date, isbn=isbn,
+                                       number_of_pages=number_of_pages, cover=cover)
+            if len(book) > 0:
+                book.delete()
+                return Response(status=status.HTTP_200_OK)
+            return Response({'Bad Request': 'Invalid Player Name...'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'Bad Request': 'Name parameter not found in request'}, status=status.HTTP_400_BAD_REQUEST)
