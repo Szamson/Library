@@ -15,6 +15,44 @@ def home(request):
     return render(request, "homepage.html", context)
 
 
+def addBook(request):
+
+    serializer_class = BookSerializer
+
+    if request.method == 'POST':
+
+        data = {
+            'title': request.POST.get('title'),
+            'author': request.POST.get('author'),
+            "publication_date": request.POST.get('date'),
+            "isbn": request.POST.get('isbn'),
+            "number_of_pages": request.POST.get('pages'),
+            "cover": request.POST.get('cover'),
+            "language": request.POST.get('language')
+        }
+
+        serializer = serializer_class(data=data)
+        print(serializer)
+        print(serializer.error_messages)
+        if serializer.is_valid():
+            post = Book()
+            post.title = request.POST.get('title')
+            post.author = request.POST.get('author')
+            post.publication_date = request.POST.get('date')
+            post.isbn = request.POST.get('isbn')
+            post.number_of_pages = request.POST.get('pages')
+            post.cover = request.POST.get('cover')
+            post.language = request.POST.get('language')
+            post.save()
+
+            return render(request, 'manualbookadd.html')
+        else:
+            context = {"errors": serializer.error_messages}
+            return render(request, 'manualbookadd.html', context)
+    else:
+        return render(request, 'manualbookadd.html')
+
+
 class BooksGetViewTitle(APIView):
     serializer_class = BookFilterSerializer
 
@@ -58,7 +96,6 @@ class BooksGetViewTitle(APIView):
 
 
 class AddBookView(APIView):
-
     serializer_class = BookSerializer
 
     def post(self, request):
