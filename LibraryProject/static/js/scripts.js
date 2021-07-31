@@ -1,5 +1,5 @@
 const url = "http://127.0.0.1:8000/";
-const data = {
+let data = {
     title: "Game of Thrones",
     author: "",
     language: "",
