@@ -26,4 +26,8 @@ media
 
 # Python # 
 *.py[cod] 
-*$py.class 
+*$py.class
+
+#KEYS#
+
+/Library/keys
